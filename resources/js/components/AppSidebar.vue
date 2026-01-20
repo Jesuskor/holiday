@@ -26,8 +26,13 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Hotels',
+        title: 'Hoteles',
         href: '/hotels',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Reservaciones',
+        href: '/reservations',
         icon: LayoutGrid,
     },
 ];

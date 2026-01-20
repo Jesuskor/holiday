@@ -10,6 +10,9 @@ use Inertia\Inertia;
 
 class ReservationController extends Controller
 {
+    public function index() {
+        return Inertia::render('reservations/Index');
+    }
     public function create(Hotel $hotel) {
         return Inertia::render('reservations/Create', ['hotel' => $hotel]);
     }
@@ -33,7 +36,7 @@ class ReservationController extends Controller
         $validated['total_price'] = $totalToCharge;
         Reservation::create($validated);
 
-        return redirect()->route('hotels.index')
-            ->with('message', 'Reservación creada con éxito');
+        return redirect()->route('reservations.index')
+            ->with('success', 'Reservación creada con éxito');
     }
 }
