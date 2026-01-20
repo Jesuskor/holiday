@@ -8,4 +8,9 @@ class Reservation extends Model
 {
     protected $fillable = ['hotel_id', 'guest_name', 'guest_email', 'check_in_date', 'check_out_date', 'guest_count', 'total_price', 'status'];
 
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class);
+    }
+
 }
