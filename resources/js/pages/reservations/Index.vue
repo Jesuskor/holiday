@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { computed } from 'vue';
-import { CheckCircle2, X } from 'lucide-vue-next';
 import {
     Table,
     TableBody,
