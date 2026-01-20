@@ -11,9 +11,11 @@ class HotelController extends Controller
 {
     public function index()
     {
+        $cities = Hotel::select('city')->distinct()->orderBy('city')->pluck('city');
         $hotels = Hotel::paginate(4);
         return Inertia::render('hotels/Index', [
             'hotels' => HotelResource::collection($hotels),
+            'cities' => $cities,
         ]);
     }
 }
