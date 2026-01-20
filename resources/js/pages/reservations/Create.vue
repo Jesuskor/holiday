@@ -28,6 +28,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+defineProps<{
+    hotel: Hotel[];
+}>();
+
 
 </script>
 
@@ -36,7 +40,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-            Reservacion
+            Reservacion {{ hotel }}
         </div>
     </AppLayout>
 </template>
