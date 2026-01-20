@@ -18,6 +18,7 @@ import Pagination from '@/components/Pagination.vue';
 import { Reservation } from '@/types/reservation';
 import FlashMessage from '@/components/FlashMessage.vue';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button'
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Reservaciones', href: '/reservations' },
@@ -41,6 +42,7 @@ const STATUS_MAP = {
         class: 'bg-red-100 text-red-700 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400 border-red-200 dark:border-red-800'
     },
 } as const;
+
 </script>
 
 <template>
@@ -103,6 +105,7 @@ const STATUS_MAP = {
                         </TableBody>
                     </Table>
                     <Pagination :links="reservations.meta.links" />
+
                 </div>
             </div>
         </div>
