@@ -35,7 +35,7 @@ defineProps<{
                 </p>
             </div>
 
-            <a :href="`/hotels/${hotel.id}`"
+            <a :href="`/hotels/${hotel.id}/reserve`"
                class="mt-3 dark:bg-neutral-800 block text-center bg-neutral-900 text-white hover:bg-neutral-300 group-hover:bg-neutral-100 dark:group-hover:bg-neutral-300 group-hover:text-neutral-900 transition-colors py-2 rounded-lg font-medium text-sm">
                 Reservar
             </a>
