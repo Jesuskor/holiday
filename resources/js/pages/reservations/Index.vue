@@ -15,6 +15,8 @@ import {
     TableRow,
 } from '@/components/ui/table'
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { PaginatedCollection } from '@/types/pagination';
+import Pagination from '@/components/Pagination.vue';
 
 const page = usePage();
 const flashSuccess = computed(() => page.props.flash.success);
@@ -34,7 +36,7 @@ interface Reservation {
 }
 
 const props = defineProps<{
-    reservations: Reservation[];
+    reservations: PaginatedCollection<Reservation>;
 }>();
 
 </script>
@@ -86,7 +88,7 @@ const props = defineProps<{
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow v-for="res in reservations" :key="res.id">
+                            <TableRow v-for="res in reservations.data" :key="res.id">
                                 <TableCell>{{ res.hotel.name }}</TableCell>
                                 <TableCell>{{ res.guest_name }}</TableCell>
                                 <TableCell>{{ formatDate(res.check_in_date) }}</TableCell>
@@ -102,13 +104,14 @@ const props = defineProps<{
                                 </TableCell>
                             </TableRow>
 
-                            <TableRow v-if="reservations.length === 0">
+                            <TableRow v-if="reservations.data.length === 0">
                                 <TableCell colspan="6" class="h-24 text-center text-neutral-500">
                                     No hay reservaciones registradas.
                                 </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
+                    <Pagination :links="reservations.meta.links" />
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReservationResource;
 use App\Models\Hotel;
 use App\Models\Reservation;
 use Carbon\Carbon;
@@ -11,8 +12,10 @@ use Inertia\Inertia;
 class ReservationController extends Controller
 {
     public function index() {
-        $reservations = Reservation::with('hotel')->get();
-        return Inertia::render('reservations/Index', compact('reservations'));
+        $reservations = Reservation::with('hotel')->latest()->paginate(4)->withQueryString();
+        return Inertia::render('reservations/Index', [
+            'reservations' => ReservationResource::collection($reservations)
+        ]);
     }
     public function create(Hotel $hotel) {
         return Inertia::render('reservations/Create', ['hotel' => $hotel]);
