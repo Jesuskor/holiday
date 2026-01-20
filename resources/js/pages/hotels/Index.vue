@@ -12,7 +12,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const props = defineProps<{
-    hotels: Hotel[];
+    hotels: {
+        data: Hotel[];
+    };
 }>();
 
 </script>
