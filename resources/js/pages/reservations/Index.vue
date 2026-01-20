@@ -17,6 +17,7 @@ import {
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { PaginatedCollection } from '@/types/pagination';
 import Pagination from '@/components/Pagination.vue';
+import { Reservation } from '@/types/reservation';
 
 const page = usePage();
 const flashSuccess = computed(() => page.props.flash.success);
@@ -24,16 +25,6 @@ const flashSuccess = computed(() => page.props.flash.success);
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Reservaciones', href: '/reservations' },
 ];
-
-interface Reservation {
-    id: number,
-    hotel: string;
-    guest_name: string;
-    check_in_date: string;
-    check_out_date: string;
-    total_price: number;
-    status: string;
-}
 
 const props = defineProps<{
     reservations: PaginatedCollection<Reservation>;
