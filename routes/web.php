@@ -20,5 +20,6 @@ Route::get('hotels', [HotelController::class, 'index'])->middleware(['auth', 've
 Route::get('hotels/{hotel}/reserve', [ReservationController::class, 'create'])->middleware(['auth', 'verified'])->name('reservations.create');
 Route::post('reservations', [ReservationController::class, 'store'])->middleware(['auth', 'verified'])->name('reservations.store');
 Route::get('reservations', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('reservations.index');
+Route::patch('reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->middleware(['auth', 'verified'])->name('reservations.cancel');
 
 require __DIR__.'/settings.php';

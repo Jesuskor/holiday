@@ -38,4 +38,10 @@ class ReservationController extends Controller
         return redirect()->route('reservations.index')
             ->with('success', 'Reservación creada con éxito');
     }
+
+    // Eliminar reservacion
+    public function cancel(Reservation $reservation) {
+        $reservation->update(['status' => 'cancelled']);
+        return redirect()->back()->with('success', 'La reservación ha sido cancelada correctamente');
+    }
 }
