@@ -19,7 +19,7 @@ class HotelController extends Controller
             ->when($request->stars, function ($query, $stars) use ($request) {
                 $query->where('star_rating', $stars);
             })
-            ->latest()->paginate(12)->withQueryString();
+            ->latest()->paginate(4)->withQueryString();
 
         $cities = Hotel::select('city')->distinct()->orderBy('city')->pluck('city');
         return Inertia::render('hotels/Index', [
