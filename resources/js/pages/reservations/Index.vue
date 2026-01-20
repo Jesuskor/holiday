@@ -20,9 +20,6 @@ import Pagination from '@/components/Pagination.vue';
 import { Reservation } from '@/types/reservation';
 import FlashMessage from '@/components/FlashMessage.vue';
 
-const page = usePage();
-const flashSuccess = computed(() => page.props.flash.success);
-
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Reservaciones', href: '/reservations' },
 ];
