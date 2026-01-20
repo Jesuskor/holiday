@@ -25,6 +25,11 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Hotels',
+        href: '/hotels',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
