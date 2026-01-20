@@ -30,3 +30,15 @@ export const formatDate = (dateString: string, locale = 'es-MX') => {
         year: 'numeric'
     });
 };
+
+/**
+ * Calcula la diferencia en días entre dos fechas (noches)
+ */
+export const calculateNights = (checkIn: string, checkOut: string): number => {
+    if (!checkIn || !checkOut) return 0;
+    const start = new Date(checkIn);
+    const end = new Date(checkOut);
+    const diff = end.getTime() - start.getTime();
+    const nights = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    return nights > 0 ? nights : 0;
+};

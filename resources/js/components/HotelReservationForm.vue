@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { UserPlus, Calendar as CalendarIcon } from 'lucide-vue-next';
+import { formatCurrency, calculateNights } from '@/lib/utils';
 
 const props = defineProps<{
     form: any;
@@ -12,23 +13,14 @@ const props = defineProps<{
 
 const emit = defineEmits(['submit']);
 
-const totalNights = computed(() => {
-    if (!props.form.check_in_date || !props.form.check_out_date) return 0;
-    const start = new Date(props.form.check_in_date);
-    const end = new Date(props.form.check_out_date);
-    const diff = end.getTime() - start.getTime();
-    const nights = Math.ceil(diff / (1000 * 60 * 60 * 24));
-    return nights > 0 ? nights : 0;
-});
+const totalNights = computed(() => calculateNights(props.form.check_in_date, props.form.check_out_date));
 
 const totalPrice = computed(() => {
     const total = totalNights.value * props.hotelPrice;
-    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(total);
+    return formatCurrency(total);
 });
 
-const formattedBasePrice = computed(() => {
-    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(props.hotelPrice);
-});
+const formattedBasePrice = computed(() => formatCurrency(props.hotelPrice));
 </script>
 
 <template>
