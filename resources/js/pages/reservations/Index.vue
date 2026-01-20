@@ -19,7 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-6 space-y-6 w-full">
-            <div class="p-6 space-y-6 w-full">
+            <div class="space-y-6 w-full">
 
                 <transition
                     enter-active-class="transform transition duration-300 ease-out"
