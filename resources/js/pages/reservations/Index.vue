@@ -14,6 +14,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import { formatCurrency, formatDate } from '@/lib/utils';
 
 const page = usePage();
 const flashSuccess = computed(() => page.props.flash.success);
@@ -35,20 +36,6 @@ interface Reservation {
 const props = defineProps<{
     reservations: Reservation[];
 }>();
-
-// Función para formatear dinero
-const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
-};
-
-// Función para formatear fechas de forma legible
-const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-MX', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-    });
-};
 
 </script>
 
