@@ -17,6 +17,7 @@ import { PaginatedCollection } from '@/types/pagination';
 import Pagination from '@/components/Pagination.vue';
 import { Reservation } from '@/types/reservation';
 import FlashMessage from '@/components/FlashMessage.vue';
+import { Badge } from '@/components/ui/badge';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Reservaciones', href: '/reservations' },
@@ -26,6 +27,20 @@ const props = defineProps<{
     reservations: PaginatedCollection<Reservation>;
 }>();
 
+const STATUS_MAP = {
+    pending: {
+        label: 'Pendiente',
+        class: 'bg-amber-100 text-amber-700 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800'
+    },
+    confirmed: {
+        label: 'Confirmada',
+        class: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
+    },
+    cancelled: {
+        label: 'Cancelada',
+        class: 'bg-red-100 text-red-700 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400 border-red-200 dark:border-red-800'
+    },
+} as const;
 </script>
 
 <template>
@@ -67,7 +82,13 @@ const props = defineProps<{
                                     {{ formatCurrency(res.total_price) }}
                                 </TableCell>
                                 <TableCell class="text-right font-bold">
-                                    {{ res.status }}
+                                    <Badge
+                                        v-if="STATUS_MAP[res.status]"
+                                        :class="STATUS_MAP[res.status].class"
+                                        variant="outline"
+                                    >
+                                        {{ STATUS_MAP[res.status].label }}
+                                    </Badge>
                                 </TableCell>
                                 <TableCell class="text-right">
                                     <button class="text-xs text-blue-600 hover:underline">Cancelar</button>
