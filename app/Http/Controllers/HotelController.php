@@ -11,7 +11,7 @@ class HotelController extends Controller
 {
     public function index()
     {
-        $hotels = Hotel::all();
+        $hotels = Hotel::paginate(4);
         return Inertia::render('hotels/Index', [
             'hotels' => HotelResource::collection($hotels),
         ]);
