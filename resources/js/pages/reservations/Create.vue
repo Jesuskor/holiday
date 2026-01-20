@@ -56,7 +56,7 @@ const submitReservation = () => {
                 <main class="lg:col-span-2">
                     <HotelReservationForm
                         :form="form"
-                        :hotel-price="hotel.price_per_night"
+                        :hotel-price="Number(hotel.price_per_night)"
                         @submit="submitReservation"
                     />
                 </main>
