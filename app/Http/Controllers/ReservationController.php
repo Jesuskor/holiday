@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Reservation\StoreReservationRequest;
 use App\Http\Resources\ReservationResource;
 use App\Models\Hotel;
 use App\Models\Reservation;
@@ -21,24 +22,18 @@ class ReservationController extends Controller
         return Inertia::render('reservations/Create', ['hotel' => $hotel]);
     }
 
-    public function store(Request $request) {
-        $validated = $request->validate([
-            'hotel_id'      => 'required|exists:hotels,id',
-            'guest_name'    => 'required|string|max:255',
-            'guest_email'   => 'required|email',
-            'check_in_date' => 'required|date|after_or_equal:today',
-            'check_out_date'=> 'required|date|after:check_in_date',
-            'guest_count'   => 'required|integer|min:1',
+    public function store(StoreReservationRequest $request) {
+        $hotel = Hotel::findOrFail($request->hotel_id);
+
+        $totalPrice = $hotel->calculatePrice(
+            $request->check_in_date,
+            $request->check_out_date
+        );
+
+        Reservation::create([
+            ...$request->validated(),
+            'total_price' => $totalPrice
         ]);
-
-        $hotel = Hotel::findOrFail($validated['hotel_id']);
-        $checkIn = Carbon::parse($validated['check_in_date']);
-        $checkOut = Carbon::parse($validated['check_out_date']);
-        $nights = $checkIn->diffInDays($checkOut);
-        $totalToCharge = $nights * $hotel->price_per_night;
-
-        $validated['total_price'] = $totalToCharge;
-        Reservation::create($validated);
 
         return redirect()->route('reservations.index')
             ->with('success', 'Reservación creada con éxito');
