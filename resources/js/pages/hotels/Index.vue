@@ -7,6 +7,7 @@ import HotelCard from '@/components/HotelCard.vue';
 import { PaginatedCollection } from '@/types/pagination';
 import Pagination from '@/components/Pagination.vue';
 
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Hoteles',
