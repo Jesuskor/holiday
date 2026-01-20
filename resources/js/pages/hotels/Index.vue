@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-
 import AppLayout from '@/layouts/AppLayout.vue';
-import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
+import { Hotel } from '@/types/hotel';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,7 +12,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const props = defineProps<{
-    hotels: any[];
+    hotels: Hotel[];
 }>();
 
 </script>
