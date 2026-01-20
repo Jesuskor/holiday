@@ -4,6 +4,16 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { computed } from 'vue';
 import { CheckCircle2, X } from 'lucide-vue-next';
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
 
 const page = usePage();
 const flashSuccess = computed(() => page.props.flash.success);
@@ -11,6 +21,34 @@ const flashSuccess = computed(() => page.props.flash.success);
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Reservaciones', href: '/reservations' },
 ];
+
+interface Reservation {
+    id: number,
+    hotel: string;
+    guest_name: string;
+    check_in_date: string;
+    check_out_date: string;
+    total_price: number;
+    status: string;
+}
+
+const props = defineProps<{
+    reservations: Reservation[];
+}>();
+
+// Función para formatear dinero
+const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+};
+
+// Función para formatear fechas de forma legible
+const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('es-MX', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    });
+};
 
 </script>
 
@@ -47,10 +85,43 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </div>
                 </header>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-3 border-2 border-dashed rounded-xl p-20 text-center text-neutral-400">
-                        Contenido de reservaciones...
-                    </div>
+                <div>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Hotel</TableHead>
+                                <TableHead>Cliente</TableHead>
+                                <TableHead>Check-in</TableHead>
+                                <TableHead>Check-out</TableHead>
+                                <TableHead class="text-right">Total</TableHead>
+                                <TableHead class="text-right">Estado</TableHead>
+                                <TableHead class="text-right">Acciones</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow v-for="res in reservations" :key="res.id">
+                                <TableCell>{{ res.hotel.name }}</TableCell>
+                                <TableCell>{{ res.guest_name }}</TableCell>
+                                <TableCell>{{ formatDate(res.check_in_date) }}</TableCell>
+                                <TableCell>{{ formatDate(res.check_out_date) }}</TableCell>
+                                <TableCell class="text-right font-bold">
+                                    {{ formatCurrency(res.total_price) }}
+                                </TableCell>
+                                <TableCell class="text-right font-bold">
+                                    {{ res.status }}
+                                </TableCell>
+                                <TableCell class="text-right">
+                                    <button class="text-xs text-blue-600 hover:underline">Cancelar</button>
+                                </TableCell>
+                            </TableRow>
+
+                            <TableRow v-if="reservations.length === 0">
+                                <TableCell colspan="6" class="h-24 text-center text-neutral-500">
+                                    No hay reservaciones registradas.
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         </div>

@@ -11,7 +11,8 @@ use Inertia\Inertia;
 class ReservationController extends Controller
 {
     public function index() {
-        return Inertia::render('reservations/Index');
+        $reservations = Reservation::with('hotel')->get();
+        return Inertia::render('reservations/Index', compact('reservations'));
     }
     public function create(Hotel $hotel) {
         return Inertia::render('reservations/Create', ['hotel' => $hotel]);
