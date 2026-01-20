@@ -18,6 +18,7 @@ import { formatCurrency, formatDate } from '@/lib/utils';
 import { PaginatedCollection } from '@/types/pagination';
 import Pagination from '@/components/Pagination.vue';
 import { Reservation } from '@/types/reservation';
+import FlashMessage from '@/components/FlashMessage.vue';
 
 const page = usePage();
 const flashSuccess = computed(() => page.props.flash.success);
@@ -39,24 +40,7 @@ const props = defineProps<{
         <div class="p-6 space-y-6 w-full">
             <div class="space-y-6 w-full">
 
-                <transition
-                    enter-active-class="transform transition duration-300 ease-out"
-                    enter-from-class="-translate-y-4 opacity-0"
-                    enter-to-class="translate-y-0 opacity-100"
-                    leave-active-class="transition duration-200 ease-in"
-                    leave-from-class="opacity-100"
-                    leave-to-class="opacity-0"
-                >
-                    <div v-if="flashSuccess" class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-lg flex items-center justify-between shadow-sm dark:bg-emerald-950/30 dark:border-emerald-800 dark:text-emerald-400">
-                        <div class="flex items-center gap-3">
-                            <CheckCircle2 class="w-5 h-5" />
-                            <p class="text-sm font-medium">{{ flashSuccess }}</p>
-                        </div>
-                        <button @click="flashSuccess = null" class="hover:bg-emerald-100 dark:hover:bg-emerald-900 p-1 rounded-full transition-colors">
-                            <X class="w-4 h-4" />
-                        </button>
-                    </div>
-                </transition>
+                <FlashMessage />
 
                 <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-6">
                     <div>
