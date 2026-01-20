@@ -27,10 +27,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 const props = defineProps<{
     hotels: PaginatedCollection<Hotel>;
     cities: string[];
-    filters: { city?: string }
+    filters: { city?: string, stars?: number }
 }>();
 
-const { selectedCity, isLoading, handleFilterChange } = useHotelFilters(props.filters)
+const { selectedCity, selectedStars, isLoading, handleFilterChange } = useHotelFilters(props.filters)
+
+const STAR_OPTIONS = [5, 4, 3, 2, 1];
 
 </script>
 
@@ -50,6 +52,20 @@ const { selectedCity, isLoading, handleFilterChange } = useHotelFilters(props.fi
                         <SelectItem value="all">Todas las ciudades</SelectItem>
                         <SelectItem v-for="city in cities" :value="city" :key="city">
                             {{ city }}
+                        </SelectItem>
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
+
+            <Select :model-value="String(selectedStars || 'all')" @update:model-value="handleFilterChange('stars', $event)">
+                <SelectTrigger class="w-[180px]">
+                    <SelectValue placeholder="Estrellas" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        <SelectItem value="all">Todas las estrellas</SelectItem>
+                        <SelectItem v-for="star in STAR_OPTIONS" :value="String(star)" :key="star">
+                            {{ star }} estrellas
                         </SelectItem>
                     </SelectGroup>
                 </SelectContent>
