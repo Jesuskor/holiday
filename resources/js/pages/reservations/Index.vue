@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import {
@@ -18,7 +18,20 @@ import Pagination from '@/components/Pagination.vue';
 import { Reservation } from '@/types/reservation';
 import FlashMessage from '@/components/FlashMessage.vue';
 import { Badge } from '@/components/ui/badge';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { ref } from 'vue';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Reservaciones', href: '/reservations' },
@@ -43,6 +56,25 @@ const STATUS_MAP = {
     },
 } as const;
 
+const selectedReservationId = ref<number | null>(null);
+const isDialogOpen = ref(false);
+const form = useForm({});
+
+const confirmCancellation = (id: number) => {
+    selectedReservationId.value = id;
+    isDialogOpen.value = true;
+}
+
+const handleCancel = () => {
+    if (!selectedReservationId.value) return;
+
+    form.patch(`/reservations/${selectedReservationId.value}/cancel`, {
+        onSuccess: () => {
+            isDialogOpen.value = false;
+            selectedReservationId.value = null;
+        },
+    });
+};
 </script>
 
 <template>
@@ -93,7 +125,7 @@ const STATUS_MAP = {
                                     </Badge>
                                 </TableCell>
                                 <TableCell class="text-right">
-                                    <button class="text-xs text-blue-600 hover:underline">Cancelar</button>
+                                    <button @click.prevent="confirmCancellation(res.id)" class="text-xs text-blue-600 hover:underline">Cancelar</button>
                                 </TableCell>
                             </TableRow>
 
@@ -105,6 +137,21 @@ const STATUS_MAP = {
                         </TableBody>
                     </Table>
                     <Pagination :links="reservations.meta.links" />
+
+                    <AlertDialog :open="isDialogOpen" @update:open="isDialogOpen = $event">
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Esta acción cambiará el estado de la reservación a "Cancelada".
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction @click.prevent="handleCancel">Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
 
                 </div>
             </div>
