@@ -9,13 +9,19 @@ use Inertia\Inertia;
 
 class HotelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = Hotel::query();
+
+        if ($request->has('city')) {
+            $query->where('city', $request->city);
+        }
+
         $cities = Hotel::select('city')->distinct()->orderBy('city')->pluck('city');
-        $hotels = Hotel::paginate(4);
         return Inertia::render('hotels/Index', [
-            'hotels' => HotelResource::collection($hotels),
+            'hotels' => HotelResource::collection($query->paginate(4)->withQueryString()),
             'cities' => $cities,
+            'filters' => $request->only('city'),
         ]);
     }
 }

@@ -6,6 +6,7 @@ import { Hotel } from '@/types/hotel';
 import HotelCard from '@/components/HotelCard.vue';
 import { PaginatedCollection } from '@/types/pagination';
 import Pagination from '@/components/Pagination.vue';
+import { useHotelFilters } from '@/composables/useHotelFilters';
 import {
     Select,
     SelectContent,
@@ -15,8 +16,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-
-
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,7 +27,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 const props = defineProps<{
     hotels: PaginatedCollection<Hotel>;
     cities: string[];
+    filters: { city?: string }
 }>();
+
+const { selectedCity, isLoading, handleFilterChange } = useHotelFilters(props.filters)
 
 </script>
 
@@ -38,14 +40,15 @@ const props = defineProps<{
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
 
-            <Select>
+            <Select :model-value="selectedCity || 'all'" @update:model-value="handleFilterChange('city', $event)" class="w-full" :disabled="isLoading">
                 <SelectTrigger class="w-[180px]">
                     <SelectValue placeholder="Selecciona una ciudad..." />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
                         <SelectLabel>Listado de ciudades</SelectLabel>
-                        <SelectItem v-for="city in cities" value="apple" :key="city">
+                        <SelectItem value="all">Todas las ciudades</SelectItem>
+                        <SelectItem v-for="city in cities" :value="city" :key="city">
                             {{ city }}
                         </SelectItem>
                     </SelectGroup>
