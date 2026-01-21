@@ -40,6 +40,7 @@ import {
     EmptyTitle,
 } from '@/components/ui/empty'
 import { BookXIcon } from 'lucide-vue-next'
+import CancelReservationDialog from '@/components/CancelReservationDialog.vue';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -83,6 +84,14 @@ const handleCancel = () => {
             selectedReservationId.value = null;
         },
     });
+};
+
+const isCancelDialogOpen = ref(false);
+const idToCancel = ref<number | null>(null);
+
+const triggerCancel = (id: number) => {
+    idToCancel.value = id;
+    isCancelDialogOpen.value = true;
 };
 
 const goToCreate = () => {
@@ -138,7 +147,7 @@ const goToCreate = () => {
                                     </Badge>
                                 </TableCell>
                                 <TableCell class="text-right sticky right-0 bg-white dark:bg-neutral-950">
-                                    <Button class="bg-red-100 dark:bg-red-400 dark:hover:bg-red-700 dark:hover:text-white transition-colors text-red-900 cursor-pointer" @click.prevent="confirmCancellation(res.id)">Cancelar</Button>
+                                    <Button class="bg-red-100 dark:bg-red-400 dark:hover:bg-red-700 dark:hover:text-white transition-colors text-red-900 cursor-pointer" @click.prevent="triggerCancel(res.id)">Cancelar</Button>
                                 </TableCell>
                             </TableRow>
 
@@ -164,20 +173,10 @@ const goToCreate = () => {
                     </Table>
                     <Pagination v-if="reservations.data.length > 0" :links="reservations.meta.links" />
 
-                    <AlertDialog :open="isDialogOpen" @update:open="isDialogOpen = $event">
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Esta acción cambiará el estado de la reservación a "Cancelada".
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction @click.prevent="handleCancel">Continue</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                    <CancelReservationDialog
+                        v-model:open="isCancelDialogOpen"
+                        :reservation-id="idToCancel"
+                    />
 
                 </div>
             </div>
