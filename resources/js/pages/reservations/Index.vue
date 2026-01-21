@@ -103,7 +103,7 @@ const handleCancel = () => {
                                 <TableHead>Check-out</TableHead>
                                 <TableHead class="text-right">Total</TableHead>
                                 <TableHead class="text-right">Estado</TableHead>
-                                <TableHead class="text-right">Acciones</TableHead>
+                                <TableHead class="text-right sticky right-0 bg-white dark:bg-neutral-950">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -124,8 +124,8 @@ const handleCancel = () => {
                                         {{ STATUS_MAP[res.status].label }}
                                     </Badge>
                                 </TableCell>
-                                <TableCell class="text-right">
-                                    <button @click.prevent="confirmCancellation(res.id)" class="text-xs text-blue-600 hover:underline">Cancelar</button>
+                                <TableCell class="text-right sticky right-0 bg-white dark:bg-neutral-950">
+                                    <Button class="bg-red-100 dark:bg-red-400 dark:hover:bg-red-700 dark:hover:text-white transition-colors text-red-900 cursor-pointer" @click.prevent="confirmCancellation(res.id)">Cancelar</Button>
                                 </TableCell>
                             </TableRow>
 
