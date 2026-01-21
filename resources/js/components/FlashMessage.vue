@@ -31,7 +31,7 @@ const close = () => {
     >
         <div v-if="isVisible && (flash.success || flash.error)" class="relative">
             <Alert :variant="flash.success ? 'default' : 'destructive'"
-                   :class="flash.success ? 'border-emerald-500/50 text-emerald-700 dark:text-emerald-400 [&>svg]:text-emerald-600' : ''">
+                   :class="flash.success ? 'border-emerald-500/50 bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 [&>svg]:text-emerald-600' : ''">
                 <CheckCircle2 v-if="flash.success" class="h-4 w-4" />
                 <AlertCircle v-else class="h-4 w-4" />
 
