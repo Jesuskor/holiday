@@ -45,7 +45,7 @@ const handleCancel = () => {
                 <AlertDialogAction
                     @click.prevent="handleCancel"
                     :disabled="form.processing"
-                    class="bg-red-600 hover:bg-red-700"
+                    class="bg-red-600 dark:bg-red-400 dark:text-red-950 dark:hover:bg-red-700 cursor-pointer hover:bg-red-700"
                 >
                     {{ form.processing ? 'Cancelando...' : 'Confirmar Cancelación' }}
                 </AlertDialogAction>
