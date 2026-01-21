@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import CancelReservationDialog from '@/components/CancelReservationDialog.vue';
 import EmptyState from '@/components/EmptyState.vue';
+import SimpleFooter from '@/components/SimpleFooter.vue';
 
 const props = defineProps<{
     reservations: PaginatedCollection<Reservation>;
@@ -100,6 +101,9 @@ const goToCreate = () => router.get('/hotels');
             </EmptyState>
 
             <CancelReservationDialog v-model:open="isCancelDialogOpen" :reservation-id="idToCancel" />
+
+            <SimpleFooter />
+
         </div>
     </AppLayout>
 </template>

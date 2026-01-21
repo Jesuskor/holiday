@@ -5,6 +5,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Hotel } from '@/types/hotel';
 import HotelSummaryCard from '@/components/HotelSummaryCard.vue';
 import HotelReservationForm from '@/components/HotelReservationForm.vue';
+import SimpleFooter from '@/components/SimpleFooter.vue';
 
 const props = defineProps<{
     hotel: Hotel;
@@ -61,6 +62,8 @@ const submitReservation = () => {
                     />
                 </main>
             </div>
+
+            <SimpleFooter />
         </div>
     </AppLayout>
 </template>

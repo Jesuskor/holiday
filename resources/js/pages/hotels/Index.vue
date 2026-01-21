@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import HotelCardSkeleton from '@/components/HotelCardSkeleton.vue';
 import HotelFilters from '@/components/HotelFilters.vue';
 import EmptyState from '@/components/EmptyState.vue';
+import SimpleFooter from '@/components/SimpleFooter.vue';
 
 const props = defineProps<{
     hotels: PaginatedCollection<Hotel>;
@@ -69,6 +70,9 @@ const resetFilters = () => {
                 v-if="!isLoading && hotels.data.length > 0"
                 :links="hotels.meta.links"
             />
+
+            <SimpleFooter />
+
         </div>
     </AppLayout>
 </template>
