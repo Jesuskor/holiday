@@ -77,7 +77,10 @@ const goToCreate = () => router.get('/hotels');
                                 </Badge>
                             </TableCell>
                             <TableCell class="text-right sticky right-0 bg-white dark:bg-neutral-950">
-                                <Button variant="destructive" size="sm" @click="triggerCancel(res.id)">
+                                <Button
+                                    :class="{ 'opacity-50 disabled': res.status === 'cancelled' }"
+                                    :disabled="res.status === 'cancelled'"
+                                    variant="destructive" size="sm" @click="triggerCancel(res.id)">
                                     Cancelar
                                 </Button>
                             </TableCell>
