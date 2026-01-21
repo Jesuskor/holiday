@@ -18,8 +18,8 @@ Sigue estos pasos detallados para levantar el proyecto en tu entorno local:
 
 ### 1. Clonar el repositorio
 ```bash
-git clone [https://github.com/tu-usuario/tu-proyecto.git](https://github.com/tu-usuario/tu-proyecto.git)
-cd tu-proyecto
+git clone https://github.com/Jesuskor/holiday
+cd holiday
 ```
 
 ### 2. Instalar dependencias de PHP (Composer)
@@ -30,13 +30,19 @@ docker run --rm \
 -u "$(id -u):$(id -g)" \
 -v "$(pwd):/var/www/html" \
 -w /var/www/html \
-laravelsail/php82-composer:latest \
+laravelsail/php84-composer:latest \
 composer install --ignore-platform-reqs
 ```
 
 ### 3. Configurar variables de entorno
 ```bash
 cp .env.example .env
+```
+Nota sobre el idioma: Si deseas que las validaciones y el sistema se muestren en español, asegúrate de modificar las siguientes variables en tu .env:
+```bash
+APP_LOCALE=es
+APP_FALLBACK_LOCALE=es
+APP_FAKER_LOCALE=es_ES
 ```
 
 ### 4. Levantar el entorno
@@ -60,5 +66,25 @@ Luego ejecuta:
 ./vendor/bin/sail artisan migrate --seed
 ```
 
-### Uso
+### 6. Frontend y Ejecución
+Instala las dependencias de Node y arranca el entorno de desarrollo:
+```bash
+./vendor/bin/sail npm install
+./vendor/bin/sail composer run dev
+```
+
+### Acceso al sistema
 App: http://127.0.0.1
+
+### Usuario de prueba
+```bash
+Email: admin@holiday.com
+Password: 123
+```
+---
+
+### Comandos útiles
+Detener contenedores:
+```bash
+./vendor/bin/sail stop
+```
