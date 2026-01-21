@@ -13,7 +13,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return redirect()->route('hotels.index');
     })->name('dashboard');
 
     Route::get('hotels', [HotelController::class, 'index'])->middleware(['auth', 'verified'])->name('hotels.index');
