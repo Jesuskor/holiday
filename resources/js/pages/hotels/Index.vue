@@ -7,27 +7,10 @@ import HotelCard from '@/components/HotelCard.vue';
 import { PaginatedCollection } from '@/types/pagination';
 import Pagination from '@/components/Pagination.vue';
 import { useHotelFilters } from '@/composables/useHotelFilters';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
 import { Button } from '@/components/ui/button';
-import { SearchXIcon } from 'lucide-vue-next'
 import HotelCardSkeleton from '@/components/HotelCardSkeleton.vue';
 import HotelFilters from '@/components/HotelFilters.vue';
 import EmptyState from '@/components/EmptyState.vue';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Hoteles',
-        href: '/',
-    },
-];
 
 const props = defineProps<{
     hotels: PaginatedCollection<Hotel>;
@@ -35,22 +18,23 @@ const props = defineProps<{
     filters: { city?: string, stars?: number }
 }>();
 
-const { selectedCity, selectedStars, isLoading, handleFilterChange } = useHotelFilters(props.filters)
+const breadcrumbs: BreadcrumbItem[] = [
+    { title: 'Hoteles', href: '/' },
+];
 
-const STAR_OPTIONS = [5, 4, 3, 2, 1];
+const { selectedCity, selectedStars, isLoading, handleFilterChange } = useHotelFilters(props.filters);
 
 const resetFilters = () => {
     handleFilterChange('city', 'all');
     handleFilterChange('stars', 'all');
 };
-
 </script>
 
 <template>
     <Head title="Hoteles" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+        <div class="flex h-full flex-1 flex-col gap-4 p-4">
 
             <HotelFilters
                 :cities="cities"
@@ -61,8 +45,7 @@ const resetFilters = () => {
                 @reset="resetFilters"
             />
 
-            <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
-
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <template v-if="isLoading">
                     <HotelCardSkeleton v-for="n in 4" :key="n" />
                 </template>
@@ -71,19 +54,21 @@ const resetFilters = () => {
                     <HotelCard v-for="hotel in hotels.data" :key="hotel.id" :hotel="hotel" />
                 </template>
 
-                <template v-else>
-                    <EmptyState
-                        class="col-span-full"
-                        title="No hay resultados"
-                        description="Intenta ajustar los filtros para encontrar lo que buscas."
-                        icon="search"
-                    >
-                        <Button variant="outline" @click="resetFilters">Limpiar filtros</Button>
-                    </EmptyState>
-                </template>
+                <EmptyState
+                    v-else
+                    class="col-span-full"
+                    title="No hay resultados"
+                    description="Intenta ajustar los filtros para encontrar lo que buscas."
+                    icon="search"
+                >
+                    <Button variant="outline" @click="resetFilters">Limpiar filtros</Button>
+                </EmptyState>
             </div>
 
-            <Pagination v-if="!isLoading && hotels.data.length > 0" :links="hotels.meta.links" />
+            <Pagination
+                v-if="!isLoading && hotels.data.length > 0"
+                :links="hotels.meta.links"
+            />
         </div>
     </AppLayout>
 </template>
