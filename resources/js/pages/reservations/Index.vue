@@ -61,7 +61,7 @@ const goToCreate = () => router.get('/hotels');
                             <TableHead>Check-out</TableHead>
                             <TableHead class="text-right">Total</TableHead>
                             <TableHead class="text-right">Estado</TableHead>
-                            <TableHead class="text-right sticky right-0 bg-white dark:bg-neutral-950">Acciones</TableHead>
+                            <TableHead class="text-right">Acciones</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -76,7 +76,7 @@ const goToCreate = () => router.get('/hotels');
                                     {{ STATUS_MAP[res.status].label }}
                                 </Badge>
                             </TableCell>
-                            <TableCell class="text-right sticky right-0 bg-white dark:bg-neutral-950">
+                            <TableCell class="text-right">
                                 <Button
                                     :class="{ 'opacity-50 disabled': res.status === 'cancelled' }"
                                     :disabled="res.status === 'cancelled'"
