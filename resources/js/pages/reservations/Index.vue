@@ -39,7 +39,7 @@ import {
     EmptyMedia,
     EmptyTitle,
 } from '@/components/ui/empty'
-import { ArrowUpRightIcon, FolderCode } from 'lucide-vue-next'
+import { BookXIcon } from 'lucide-vue-next'
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -147,7 +147,7 @@ const goToCreate = () => {
                                     <Empty>
                                         <EmptyHeader>
                                             <EmptyMedia variant="icon">
-                                                <FolderCode />
+                                                <BookXIcon />
                                             </EmptyMedia>
                                             <EmptyTitle>No hay reservaciones</EmptyTitle>
                                             <EmptyDescription>
