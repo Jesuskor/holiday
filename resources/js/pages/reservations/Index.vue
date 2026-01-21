@@ -41,6 +41,7 @@ import {
 } from '@/components/ui/empty'
 import { BookXIcon } from 'lucide-vue-next'
 import CancelReservationDialog from '@/components/CancelReservationDialog.vue';
+import EmptyState from '@/components/EmptyState.vue';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -116,61 +117,56 @@ const goToCreate = () => {
                 </header>
 
                 <div>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Hotel</TableHead>
-                                <TableHead>Cliente</TableHead>
-                                <TableHead>Check-in</TableHead>
-                                <TableHead>Check-out</TableHead>
-                                <TableHead class="text-right">Total</TableHead>
-                                <TableHead class="text-right">Estado</TableHead>
-                                <TableHead class="text-right sticky right-0 bg-white dark:bg-neutral-950">Acciones</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow v-for="res in reservations.data" :key="res.id">
-                                <TableCell>{{ res.hotel.name }}</TableCell>
-                                <TableCell>{{ res.guest_name }}</TableCell>
-                                <TableCell>{{ formatDate(res.check_in_date) }}</TableCell>
-                                <TableCell>{{ formatDate(res.check_out_date) }}</TableCell>
-                                <TableCell class="text-right font-bold">
-                                    {{ formatCurrency(res.total_price) }}
-                                </TableCell>
-                                <TableCell class="text-right font-bold">
-                                    <Badge
-                                        v-if="STATUS_MAP[res.status]"
-                                        :class="STATUS_MAP[res.status].class"
-                                        variant="outline"
-                                    >
-                                        {{ STATUS_MAP[res.status].label }}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell class="text-right sticky right-0 bg-white dark:bg-neutral-950">
-                                    <Button class="bg-red-100 dark:bg-red-400 dark:hover:bg-red-700 dark:hover:text-white transition-colors text-red-900 cursor-pointer" @click.prevent="triggerCancel(res.id)">Cancelar</Button>
-                                </TableCell>
-                            </TableRow>
+                    <template v-if="reservations.data.length > 0">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Hotel</TableHead>
+                                    <TableHead>Cliente</TableHead>
+                                    <TableHead>Check-in</TableHead>
+                                    <TableHead>Check-out</TableHead>
+                                    <TableHead class="text-right">Total</TableHead>
+                                    <TableHead class="text-right">Estado</TableHead>
+                                    <TableHead class="text-right sticky right-0 bg-white dark:bg-neutral-950">Acciones</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                <TableRow v-for="res in reservations.data" :key="res.id">
+                                    <TableCell>{{ res.hotel.name }}</TableCell>
+                                    <TableCell>{{ res.guest_name }}</TableCell>
+                                    <TableCell>{{ formatDate(res.check_in_date) }}</TableCell>
+                                    <TableCell>{{ formatDate(res.check_out_date) }}</TableCell>
+                                    <TableCell class="text-right font-bold">
+                                        {{ formatCurrency(res.total_price) }}
+                                    </TableCell>
+                                    <TableCell class="text-right font-bold">
+                                        <Badge
+                                            v-if="STATUS_MAP[res.status]"
+                                            :class="STATUS_MAP[res.status].class"
+                                            variant="outline"
+                                        >
+                                            {{ STATUS_MAP[res.status].label }}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell class="text-right sticky right-0 bg-white dark:bg-neutral-950">
+                                        <Button class="bg-red-100 dark:bg-red-400 dark:hover:bg-red-700 dark:hover:text-white transition-colors text-red-900 cursor-pointer" @click.prevent="triggerCancel(res.id)">Cancelar</Button>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </template>
 
-                            <TableRow v-if="reservations.data.length === 0">
-                                <TableCell colspan="7" class="h-24 text-center">
-                                    <Empty>
-                                        <EmptyHeader>
-                                            <EmptyMedia variant="icon">
-                                                <BookXIcon />
-                                            </EmptyMedia>
-                                            <EmptyTitle>No hay reservaciones</EmptyTitle>
-                                            <EmptyDescription>
-                                                Aún no se han registrado reservaciones en el sistema.
-                                            </EmptyDescription>
-                                        </EmptyHeader>
-                                        <EmptyContent>
-                                            <Button @click="goToCreate">Crear reservación</Button>
-                                        </EmptyContent>
-                                    </Empty>
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                    <template v-if="reservations.data.length === 0">
+                        <EmptyState
+                            class="mt-10"
+                            title="Sin reservaciones"
+                            description="Aún no tienes registros. Comienza creando tu primera reserva."
+                            icon="book"
+                        >
+                            <Button @click="goToCreate">Crear reservación</Button>
+                        </EmptyState>
+                    </template>
+
                     <Pagination v-if="reservations.data.length > 0" :links="reservations.meta.links" />
 
                     <CancelReservationDialog

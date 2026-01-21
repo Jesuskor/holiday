@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { SearchXIcon } from 'lucide-vue-next'
 import HotelCardSkeleton from '@/components/HotelCardSkeleton.vue';
 import HotelFilters from '@/components/HotelFilters.vue';
+import EmptyState from '@/components/EmptyState.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -70,12 +71,16 @@ const resetFilters = () => {
                     <HotelCard v-for="hotel in hotels.data" :key="hotel.id" :hotel="hotel" />
                 </template>
 
-                <div v-else class="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed rounded-xl">
-                    <SearchXIcon class="w-12 h-12 text-neutral-300" />
-                    <h3 class="mt-4 text-lg font-medium">No hay resultados</h3>
-                    <p class="text-neutral-500">Intenta ajustar los filtros para encontrar lo que buscas.</p>
-                    <Button @click="resetFilters" class="mt-2">Limpiar todos los filtros</Button>
-                </div>
+                <template v-else>
+                    <EmptyState
+                        class="col-span-full"
+                        title="No hay resultados"
+                        description="Intenta ajustar los filtros para encontrar lo que buscas."
+                        icon="search"
+                    >
+                        <Button variant="outline" @click="resetFilters">Limpiar filtros</Button>
+                    </EmptyState>
+                </template>
             </div>
 
             <Pagination v-if="!isLoading && hotels.data.length > 0" :links="hotels.meta.links" />
