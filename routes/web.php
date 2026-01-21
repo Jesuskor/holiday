@@ -7,19 +7,24 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
+    return redirect()->route('login');
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-Route::get('hotels', [HotelController::class, 'index'])->middleware(['auth', 'verified'])->name('hotels.index');
-Route::get('hotels/{hotel}/reserve', [ReservationController::class, 'create'])->middleware(['auth', 'verified'])->name('reservations.create');
-Route::post('reservations', [ReservationController::class, 'store'])->middleware(['auth', 'verified'])->name('reservations.store');
-Route::get('reservations', [ReservationController::class, 'index'])->middleware(['auth', 'verified'])->name('reservations.index');
-Route::patch('reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->middleware(['auth', 'verified'])->name('reservations.cancel');
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::get('hotels', [HotelController::class, 'index'])->middleware(['auth', 'verified'])->name('hotels.index');
+
+    Route::controller(ReservationController::class)->group(function() {
+        Route::get('reservations', 'index')->name('reservations.index');
+        Route::get('reservations/{reservation}/cancel', 'cancel')->name('reservations.cancel');
+        Route::post('reservations', 'store')->name('reservations.store');
+        Route::get('hotels/{hotel}/reserve', 'create')->name('reservations.create');
+    });
+
+});
 
 require __DIR__.'/settings.php';
