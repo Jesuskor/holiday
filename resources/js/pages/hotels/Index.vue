@@ -46,7 +46,7 @@ const resetFilters = () => {
                 @reset="resetFilters"
             />
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                 <template v-if="isLoading">
                     <HotelCardSkeleton v-for="n in 4" :key="n" />
                 </template>
