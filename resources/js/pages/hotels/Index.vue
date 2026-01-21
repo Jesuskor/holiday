@@ -19,6 +19,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { SearchXIcon } from 'lucide-vue-next'
 import HotelCardSkeleton from '@/components/HotelCardSkeleton.vue';
+import HotelFilters from '@/components/HotelFilters.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -50,36 +51,14 @@ const resetFilters = () => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
 
-            <div class="flex items-center justify-end gap-2">
-                <small class="text-neutral-400 dark:text-neutral-500">Filtrar por</small>
-                <Select :model-value="selectedCity || 'all'" @update:model-value="handleFilterChange('city', $event)" class="w-full" :disabled="isLoading">
-                    <SelectTrigger class="w-[180px]">
-                        <SelectValue placeholder="Selecciona una ciudad..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Listado de ciudades</SelectLabel>
-                            <SelectItem value="all">Todas las ciudades</SelectItem>
-                            <SelectItem v-for="city in cities" :value="city" :key="city">
-                                {{ city }}
-                            </SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
-                <Select :model-value="String(selectedStars || 'all')" @update:model-value="handleFilterChange('stars', $event)">
-                    <SelectTrigger class="w-[180px]">
-                        <SelectValue placeholder="Estrellas" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectItem value="all">Todas las estrellas</SelectItem>
-                            <SelectItem v-for="star in STAR_OPTIONS" :value="String(star)" :key="star">
-                                {{ star }} estrellas
-                            </SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
-            </div>
+            <HotelFilters
+                :cities="cities"
+                :selected-city="selectedCity"
+                :selected-stars="selectedStars"
+                :is-loading="isLoading"
+                @change="handleFilterChange"
+                @reset="resetFilters"
+            />
 
             <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
 
