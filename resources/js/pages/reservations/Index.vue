@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import {
@@ -31,6 +31,15 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { ref } from 'vue';
+import {
+    Empty,
+    EmptyContent,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+} from '@/components/ui/empty'
+import { ArrowUpRightIcon, FolderCode } from 'lucide-vue-next'
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -75,6 +84,10 @@ const handleCancel = () => {
         },
     });
 };
+
+const goToCreate = () => {
+    router.get('/hotels');
+}
 </script>
 
 <template>
@@ -130,13 +143,26 @@ const handleCancel = () => {
                             </TableRow>
 
                             <TableRow v-if="reservations.data.length === 0">
-                                <TableCell colspan="6" class="h-24 text-center text-neutral-500">
-                                    No hay reservaciones registradas.
+                                <TableCell colspan="7" class="h-24 text-center">
+                                    <Empty>
+                                        <EmptyHeader>
+                                            <EmptyMedia variant="icon">
+                                                <FolderCode />
+                                            </EmptyMedia>
+                                            <EmptyTitle>No hay reservaciones</EmptyTitle>
+                                            <EmptyDescription>
+                                                Aún no se han registrado reservaciones en el sistema.
+                                            </EmptyDescription>
+                                        </EmptyHeader>
+                                        <EmptyContent>
+                                            <Button @click="goToCreate">Crear reservación</Button>
+                                        </EmptyContent>
+                                    </Empty>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
-                    <Pagination :links="reservations.meta.links" />
+                    <Pagination v-if="reservations.data.length > 0" :links="reservations.meta.links" />
 
                     <AlertDialog :open="isDialogOpen" @update:open="isDialogOpen = $event">
                         <AlertDialogContent>
